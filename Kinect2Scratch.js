@@ -22,7 +22,6 @@
  
 (function (ext)
 {
-    var handright;
     var jointData = { "SpineBase": null, "SpineMid": null, "Neck": null, "Head": null, "ShoulderLeft": null, "ElbowLeft": null, "WristLeft": null, "HandLeft": null, "ShoulderRight": null, "ElbowRight": null, "WristRight": null, "HandRight": null, "HipLeft": null, "KneeLeft": null, "AnkleLeft": null, "FootLeft": null, "HipRight": null, "KneeRight": null, "AnkleRight": null, "FootRight": null, "SpineShoulder": null, "HandTipLeft": null, "ThumbLeft": null, "HandTipRight": null, "ThumbRight": null };
 
     var connection = new WebSocket('ws://localhost:8181/');
@@ -41,8 +40,7 @@
 
     connection.onmessage = function (e) {
         console.log(e.data);
-        var obj = JSON.parse(e.data);
-        console.log(obj.toString());
+        var obj = JSON.parse(e.data);        
         jointData[obj.joint] = obj;
     }
 
@@ -72,7 +70,7 @@
 
     ext.getValue = function (coordinate, bodyPart) {
         var j = jointData[bodyPart];
-        //console.log("Requested: " + coordinate + " of " + bodyPart + " = " + j[coordinate]);
+        console.log("Requested: " + coordinate + " of " + bodyPart + " = " + j[coordinate]);
         return JSON.stringify(j[coordinate]);
     };
     
@@ -83,7 +81,12 @@
         ],
         menus: {
             coordinate: ["x", "y", "z"],
-            bodyPart: ["SpineBase", "SpineMid", "Neck", "Head", "ShoulderLeft", "ElbowLeft", "WristLeft", "HandLeft", "ShoulderRight", "ElbowRight", "WristRight", "HandRight", "HipLeft", "KneeLeft", "AnkleLeft", "FootLeft", "HipRight", "KneeRight", "AnkleRight", "FootRight", "SpineShoulder", "HandTipLeft", "ThumbLeft", "HandTipRight", "ThumbRight"]
+            bodyPart: [
+                "Head", "Neck", "SpineShoulder", "SpineMid", "SpineBase",    
+                "ShoulderLeft", "ElbowLeft", "WristLeft", "HandLeft", "HandTipLeft", "ThumbLeft",
+                "ShoulderRight", "ElbowRight", "WristRight", "HandRight", "HandTipRight", "ThumbRight",
+                "HipLeft", "KneeLeft", "AnkleLeft", "FootLeft", 
+                "HipRight", "KneeRight", "AnkleRight", "FootRight" ]
         },
         url: 'http://scratch.saorog.com'
     };
