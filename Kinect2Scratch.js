@@ -40,7 +40,9 @@
     }
 
     connection.onmessage = function (e) {
+        console.log(e.data);
         var obj = JSON.parse(e.data);
+        console.log(obj.toString());
         jointData[obj.joint] = obj;
     }
 
