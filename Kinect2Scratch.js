@@ -53,10 +53,8 @@
         if (connection.readyState == 1) {
             return { status: 2, msg: 'Connected' };
         } 
-        else { 
-            connection = new WebSocket('ws://localhost:8181/');     
-            return { status: 1, msg: 'Not connected, attempting reconnection...' };    
-            
+        else {               
+            return { status: 1, msg: 'Not connected, attempting reconnection...' };                
         }
     };    
     
