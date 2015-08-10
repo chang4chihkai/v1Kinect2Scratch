@@ -54,8 +54,9 @@
             return { status: 2, msg: 'Connected' };
         } 
         else { 
-            return { status: 1, msg: 'Not connected, attempting reconnection...' };    
             connection = new WebSocket('ws://localhost:8181/');     
+            return { status: 1, msg: 'Not connected, attempting reconnection...' };    
+            
         }
     };    
     
