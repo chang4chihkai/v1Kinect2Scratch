@@ -54,7 +54,11 @@
     ext._getStatus = function () {        
         if (connection.readyState == 1) {
             return { status: 2, msg: 'Connected' };
-        } else { return { status: 1, msg: 'Not connected' }; }
+        } 
+        else { 
+            return { status: 1, msg: 'Not connected, attempting reconnection...' };    
+            connection = new WebSocket('ws://localhost:8181/');     
+        }
     };    
     
     ext.Disconnect = function (callback) {
