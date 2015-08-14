@@ -69,7 +69,7 @@
 
     ext.getValue = function (coordinate, bodyPart) {
         var j = jointData[bodyPart];
-        console.log("Requested: " + coordinate + " of " + bodyPart + " = " + j[coordinate]);
+        //console.log("Requested: " + coordinate + " of " + bodyPart + " = " + j[coordinate]);
         return JSON.stringify(j[coordinate]);
     };
     
