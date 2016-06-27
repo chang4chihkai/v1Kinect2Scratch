@@ -24,7 +24,7 @@
 {
     var jointData = { "HipCenter": null, "Spine": null, "ShoulderCenter": null, "Head": null, "ShoulderLeft": null, "ElbowLeft": null, "WristLeft": null, "HandLeft": null, "ShoulderRight": null, "ElbowRight": null, "WristRight": null, "HandRight": null, "HipLeft": null, "KneeLeft": null, "AnkleLeft": null, "FootLeft": null, "HipRight": null, "KneeRight": null, "AnkleRight": null, "FootRight": null };
 
-    var connection = new WebSocket('ws://localhost:8181/');
+    var connection = new WebSocket('ws://localhost:2606/'); // Changing the port
 
     connection.onopen = function () {
         //console.log('Connection open!');
