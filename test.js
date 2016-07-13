@@ -106,20 +106,20 @@
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
-            ['r', 'get %m.coordinate position of %m.side %m.limbs', 'getLimbValue', 'x', 'Right', 'Hand']
-			['r', 'get %m.coordinate position of %m.side %m.limbs', 'getLimbValue', 'y', 'Right', 'Hand']
-			['r', 'get %m.coordinate position of %m.torso', 'getTorsoValue', 'x', 'Head']
-			['r', '%m.side Hand is %m.state', 'getHandState', 'Right', 'Closed']
-			['h', 'When User Enters View', 'userEntered']
-			['h', 'When User Exits View', 'userLost']
-			['h', 'When Wave %m.side detected', 'waveDetected', 'Right']
-			['h', 'When Swipe %m.swipeDirections detected', 'swipeDetected', 'Right']
+            ['r', 'get %m.coordinate position of %m.side %m.limbs', 'getLimbValue', 'x', 'Right', 'Hand'],
+			['r', 'get %m.coordinate position of %m.side %m.limbs', 'getLimbValue', 'y', 'Right', 'Hand'],
+			['r', 'get %m.coordinate position of %m.torso', 'getTorsoValue', 'x', 'Head'],
+			['r', '%m.side Hand is %m.state', 'getHandState', 'Right', 'Closed'],
+			['h', 'When User Enters View', 'userEntered'],
+			['h', 'When User Exits View', 'userLost'],
+			['h', 'When Wave %m.side detected', 'waveDetected', 'Right'],
+			['h', 'When Swipe %m.swipeDirections detected', 'swipeDetected', 'Right'],
 			['h', 'When Joined Hands detected', 'joinedHandsDetected']
         ],
         menus: {
             coordinate: ["x", "y", "z"],
-            side: ["Right", "Left"]
-			swipeDirections: ["Right", "Left", "Up", "Down"]
+            side: ["Right", "Left"],
+			swipeDirections: ["Right", "Left", "Up", "Down"],
 			state: ["Open", "Closed"],
 			torso: ["Head", "Neck", "SpineShoulder", "SpineMid", "SpineBase"],
 			limbs: [ "Shoulder", "Elbow", "Wrist", "Hand", "HandTip", "Thumb", "Hip", "Knee", "Ankle", "Foot" ]
