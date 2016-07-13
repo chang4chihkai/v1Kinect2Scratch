@@ -52,7 +52,6 @@
         console.log(e.data);
         var obj = JSON.parse(e.data);        
 		// If it's joint data?
-		torso
 		jointData[obj.joint] = obj;
     }
 
