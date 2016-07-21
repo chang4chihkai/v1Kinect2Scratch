@@ -60,7 +60,7 @@
 		rightHandState = kdata[rightHandState];
     		leftHandState  = kdata[leftHandState];
     		leftHandState = "Unknown";  	
-		jointData[obj.joint] = obj;
+		//jointData[obj.joint] = obj;
 	}
 	else
 	{
