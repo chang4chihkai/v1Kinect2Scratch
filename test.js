@@ -59,7 +59,8 @@
 		console.log("Parsing body data");
 		rightHandState = kdata[rightHandState];
     		leftHandState  = kdata[leftHandState];
-    		leftHandState = "Unknown";  	
+    		console.log("Right hand is now: " + rightHandState);
+    		console.log("Left hand is now: " + leftHandState);
 		//jointData[obj.joint] = obj;
 	}
 	else
@@ -102,10 +103,17 @@
     };
     
 	ext.getHandState = function (side, state) {
+		console.log("Request for: " + side + " hand in state: " + state);
 		if(side == "Right" && rightHandState == state)
+		{
+			console.log("returning true for right hand in state " + state);
 			JSON.stringify(true);
+		}
 		if(side == "Left" && leftHandState == state)
+		{
+			console.log("returning true for left hand in state " + state);
 			JSON.stringify(true);
+		}
 		return JSON.stringify(false);
     };
 
