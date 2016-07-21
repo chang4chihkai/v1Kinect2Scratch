@@ -23,7 +23,9 @@
 (function (ext)
 {
     var jointData = { "SpineBase": null, "SpineMid": null, "Neck": null, "Head": null, "ShoulderLeft": null, "ElbowLeft": null, "WristLeft": null, "HandLeft": null, "ShoulderRight": null, "ElbowRight": null, "WristRight": null, "HandRight": null, "HipLeft": null, "KneeLeft": null, "AnkleLeft": null, "FootLeft": null, "HipRight": null, "KneeRight": null, "AnkleRight": null, "FootRight": null, "SpineShoulder": null, "HandTipLeft": null, "ThumbLeft": null, "HandTipRight": null, "ThumbRight": null };
-	
+    var rightHandState = "Unknown";
+    var leftHandState = "Unknown";  	
+    
 	var JoinedHands = false;
 	var WaveRight = false;
 	var WaveLeft = false;
@@ -49,10 +51,21 @@
     }
 
     connection.onmessage = function (e) {
-        console.log(e.data);
-        var obj = JSON.parse(e.data);        
-		// If it's joint data?
+        // console.log(e.data); Commenting out as data is coming in, now fix the parsing
+        var kdata = JSON.parse(e.data);        
+	// Check if it's a body (could be a face etc.)
+	if(kdata.type == "body")
+	{
+		console.log("Parsing body data");
+		rightHandState = kdata[rightHandState];
+    		leftHandState  = kdata[leftHandState];
+    		leftHandState = "Unknown";  	
 		jointData[obj.joint] = obj;
+	}
+	else
+	{
+		console.log("Strange data");
+	}
     }
 
     // Cleanup function when the extension is unloaded
@@ -79,8 +92,8 @@
     };
 
     ext.getLimbValue = function (coordinate, side, bodyPart) {
-		var j = jointData[bodyPart + side];
-		return JSON.stringify(j[coordinate]);
+	var j = jointData[bodyPart + side];
+	return JSON.stringify(j[coordinate]);
     };
     
 	ext.getTorsoValue = function (coordinate, torso) {
@@ -89,15 +102,13 @@
     };
     
 	ext.getHandState = function (side, state) {
-		var j = handStateData[side+"Hand"];
-		return JSON.stringify(j[state]);
+		if(side == "Right" && rightHandState == state)
+			JSON.stringify(true);
+		if(side == "Left" && leftHandState == state)
+			JSON.stringify(true);
+		return JSON.stringify(false);
     };
-    
-	ext.getHandState = function (side, state) {
-		var j = handStateData[side+"Hand"];
-		return JSON.stringify(j[state]);
-    };
-	
+
 	ext.joinedHandsDetected = function () {
 		var j = handStateData[side+"Hand"];
 		return JSON.stringify(j[state]);
@@ -117,12 +128,12 @@
 			['h', 'When Joined Hands detected', 'joinedHandsDetected']
         ],
         menus: {
-            coordinate: ["x", "y", "z"],
-            side: ["Right", "Left"],
-			swipeDirections: ["Right", "Left", "Up", "Down"],
-			state: ["Open", "Closed"],
-			torso: ["Head", "Neck", "SpineShoulder", "SpineMid", "SpineBase"],
-			limbs: [ "Shoulder", "Elbow", "Wrist", "Hand", "HandTip", "Thumb", "Hip", "Knee", "Ankle", "Foot" ]
+            	coordinate: ["x", "y", "z"],
+            	side: ["Right", "Left"],
+		swipeDirections: ["Right", "Left", "Up", "Down"],
+		state: ["Open", "Closed", "Lasso", "Unknown"],
+		torso: ["Head", "Neck", "SpineShoulder", "SpineMid", "SpineBase"],
+		limbs: [ "Shoulder", "Elbow", "Wrist", "Hand", "HandTip", "Thumb", "Hip", "Knee", "Ankle", "Foot" ]
         },
         url: 'http://stephenhowell.github.io'
     };
