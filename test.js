@@ -52,16 +52,12 @@
     connection.onmessage = function (e) {
         // console.log(e.data); Commenting out as data is coming in, now fix the parsing
         var kdata = JSON.parse(e.data);
-        console.log(JSON.stringify(kdata));
+        // console.log(JSON.stringify(kdata));
         // Check if it's a body (could be a face etc.)
         if (kdata.type == "body") {
-            console.log("Before: " + JSON.stringify(kdata.joints.Head[0]));
             jointData = kdata.joints;
-            console.log("After: " + JSON.stringify(jointData.Head[0]));
             rightHandState = kdata.rightHandState;
-            leftHandState = kdata.leftHandState;
-            
-            //jointData[obj.joint] = obj;
+            leftHandState = kdata.leftHandState;            
         }
         else {
             console.log(e.data);
@@ -99,8 +95,20 @@
         return JSON.stringify(j[coordinate]);
     };
 
-    ext.getTorsoValue = function (coordinate, torso) {
-        var j = jointData[torso];
+    //jointData.Head[0]        
+    ext.getTorsoValue = function (coordinate, torsoJoint) {
+        console.log(JSON.stringify(jointData.torsoJoint));
+        var joint = jointData.torsoJoint;
+        if (coordinate == "x")
+            return joint[0]; //test if stringify needed?
+        else if (coordinate == "y")
+            return JSON.stringify(joint[1]);
+        else if (coordinate == "z")
+            return JSON.stringify(joint[2]);
+        else
+            return 0;
+        }
+
         return JSON.stringify(j[coordinate]);
     };
 
