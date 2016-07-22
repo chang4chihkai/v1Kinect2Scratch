@@ -55,9 +55,9 @@
         console.log(JSON.stringify(kdata));
         // Check if it's a body (could be a face etc.)
         if (kdata.type == "body") {
-            console.log("Before: " + kdata.Head[0]);
+            console.log("Before: " + JSON.stringify(kdata.joints.Head[0]));
             jointData = kdata.joints;
-            console.log("After: " + jointData.Head[0]);
+            console.log("After: " + JSON.stringify(jointData.Head[0]));
             rightHandState = kdata.rightHandState;
             leftHandState = kdata.leftHandState;
             
