@@ -32,8 +32,7 @@
     var SwipeRight = false;
     var SwipeUp = false;
     var SwipeDown = false;
-    var ZoomIn = false;
-    var ZoomOut = false;
+    
 
     var connection = new WebSocket('ws://localhost:8181/');
 
@@ -59,8 +58,40 @@
             rightHandState = kdata.rightHandState;
             leftHandState = kdata.leftHandState;            
         }
-        else {
-            console.log(e.data);
+        else if (kdata.type == "gesture") {
+            switch(kdata.gesture)
+            {
+                //     Hands joined in front of chest.
+                case "JoinedHands":
+                    JoinedHands = true;
+                    break;
+                //     Waving using the right hand.
+                case "WaveRight":
+                    WaveRight = true;
+                    break;
+                //     Waving using the left hand.
+                case "WaveLeft":
+                    WaveLeft = true;
+                    break;
+                //     Hand moved horizontally from right to left.
+                case "SwipeLeft":
+                    SwipeLeft = true;
+                    break;
+                //     Hand moved horizontally from left to right.
+                case "SwipeRight":
+                    SwipeRight = true;
+                    break;
+                //     Hand moved vertically from hip center to head.
+                case "SwipeUp":
+                    SwipeUp = true;
+                    break;
+                //     Hand moved vertically from head to hip center.
+                case "SwipeDown":
+                    SwipeDown = true;
+                    break;
+                
+            }
+                     
         }
     }
 
@@ -74,7 +105,7 @@
             return { status: 2, msg: 'Connected' };
         }
         else {
-            connection = new WebSocket('ws://localhost:8181/');
+            connection = new WebSocket('ws://localhost:8181/'); // Does nae work at all
             return { 
                 status: 1, msg: 'Not connected, attempting reconnection, make sure Kinect2ScratchX is running!' 
             };
@@ -97,7 +128,7 @@
 
     //jointData.Head[0]        
     ext.getTorsoValue = function (coordinate, torsoJoint) {
-        console.log("Toso called");
+        
         var joint = jointData.torsoJoint;
         console.log(JSON.stringify(joint));
         if (coordinate == "x")
@@ -111,21 +142,38 @@
     };
 
     ext.getHandState = function (side, state) {
-        //console.log("Request for: " + side + " hand in state: " + state + " and our right hand is " + rightHandState);
-        if (side == "Right" && rightHandState == state) {
-            //console.log("returning true for right hand in state " + state);
+        if (side == "Right" && rightHandState == state)
             return true;
-        }
-        if (side == "Left" && leftHandState == state) {
-            //console.log("returning true for left hand in state " + state);
+
+        if (side == "Left" && leftHandState == state)
             return true;
-        }
+
         return false;
     };
 
     ext.joinedHandsDetected = function () {
         var j = handStateData[side + "Hand"];
         return JSON.stringify(j[state]);
+    };
+
+    ext.waveDetected = function (side) {
+        var waveVal = false;
+        if (side == "Right")
+        {
+            waveVal = WaveRight;
+            WaveRight = false;
+        }
+        else if (side == "Left")
+        {
+            waveVal = WaveLeft;
+            WaveLeft = false;
+        }
+        return waveVal;
+    };
+
+    ext.swipeDetected = function (swipeDirection) {
+
+        return false;
     };
 
     // Block and block menu descriptions
@@ -135,6 +183,7 @@
 			['r', 'get %m.coordinate position of %m.side %m.limbs', 'getLimbValue', 'y', 'Right', 'Hand'],
 			['r', 'get %m.coordinate position of %m.torso', 'getTorsoValue', 'x', 'Head'],
 			['b', '%m.side Hand is %m.state', 'getHandState', 'Right', 'Closed'],
+            ['b', 'hands joined', 'handsJoined'],
 			['h', 'When User Enters View', 'userEntered'],
 			['h', 'When User Exits View', 'userLost'],
 			['h', 'When Wave %m.side detected', 'waveDetected', 'Right'],
