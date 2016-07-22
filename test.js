@@ -97,8 +97,9 @@
 
     //jointData.Head[0]        
     ext.getTorsoValue = function (coordinate, torsoJoint) {
-        console.log(JSON.stringify(jointData.torsoJoint));
+        console.log("Toso called");
         var joint = jointData.torsoJoint;
+        console.log(JSON.stringify(joint));
         if (coordinate == "x")
             return joint[0]; //test if stringify needed?
         else if (coordinate == "y")
