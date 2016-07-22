@@ -38,11 +38,11 @@
     var connection = new WebSocket('ws://localhost:8181/');
 
     connection.onopen = function () {
-        //console.log('Connection open!');
+        console.log('Connection open!');
     }
 
     connection.onclose = function () {
-        //console.log('Connection closed');
+        console.log('Connection closed');
     }
 
     connection.onerror = function (error) {
@@ -52,6 +52,7 @@
     connection.onmessage = function (e) {
         // console.log(e.data); Commenting out as data is coming in, now fix the parsing
         var kdata = JSON.parse(e.data);
+        console.log(JSON.stringify(kdata));
         // Check if it's a body (could be a face etc.)
         if (kdata.type == "body") {
             console.log("Before: " + kdata.Head[0]);
@@ -77,7 +78,10 @@
             return { status: 2, msg: 'Connected' };
         }
         else {
-            return { status: 1, msg: 'Not connected, attempting reconnection...' };
+            connection = new WebSocket('ws://localhost:8181/');
+            return { 
+                status: 1, msg: 'Not connected, attempting reconnection, make sure Kinect2ScratchX is running!' 
+            };
         }
     };
 
