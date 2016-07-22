@@ -57,8 +57,8 @@
 	if(kdata.type == "body")
 	{
 		console.log("Parsing body data");
-		rightHandState = kdata[rightHandState];
-    		leftHandState  = kdata[leftHandState];
+		rightHandState = kdata.rightHandState;
+    		leftHandState  = kdata.leftHandState;
     		console.log("Right hand is now: " + rightHandState);
     		console.log("Left hand is now: " + leftHandState);
 		//jointData[obj.joint] = obj;
@@ -103,7 +103,7 @@
     };
     
 	ext.getHandState = function (side, state) {
-		console.log("Request for: " + side + " hand in state: " + state);
+		console.log("Request for: " + side + " hand in state: " + state + " and our right hand is " + rightHandState);
 		if(side == "Right" && rightHandState == state)
 		{
 			console.log("returning true for right hand in state " + state);
