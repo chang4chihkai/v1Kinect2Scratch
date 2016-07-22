@@ -106,10 +106,7 @@
         else if (coordinate == "z")
             return JSON.stringify(joint[2]);
         else
-            return 0;
-        }
-
-        return JSON.stringify(j[coordinate]);
+            return null; // or 0?
     };
 
     ext.getHandState = function (side, state) {
