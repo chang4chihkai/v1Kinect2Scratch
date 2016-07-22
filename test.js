@@ -54,9 +54,9 @@
         var kdata = JSON.parse(e.data);
         // Check if it's a body (could be a face etc.)
         if (kdata.type == "body") {
-            console.log(jointData.head[0]); 
+            console.log(jointData[head][0]); 
             jointData = kdata.joints;
-            console.log(jointData.head[0]);
+            console.log(jointData[head][0]);
             rightHandState = kdata.rightHandState;
             leftHandState = kdata.leftHandState;
             
