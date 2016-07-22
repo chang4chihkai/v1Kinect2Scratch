@@ -19,23 +19,22 @@
 //LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //THE SOFTWARE.
- 
-(function (ext)
-{
+
+(function (ext) {
     var jointData = { "SpineBase": null, "SpineMid": null, "Neck": null, "Head": null, "ShoulderLeft": null, "ElbowLeft": null, "WristLeft": null, "HandLeft": null, "ShoulderRight": null, "ElbowRight": null, "WristRight": null, "HandRight": null, "HipLeft": null, "KneeLeft": null, "AnkleLeft": null, "FootLeft": null, "HipRight": null, "KneeRight": null, "AnkleRight": null, "FootRight": null, "SpineShoulder": null, "HandTipLeft": null, "ThumbLeft": null, "HandTipRight": null, "ThumbRight": null };
     var rightHandState = "Unknown";
-    var leftHandState = "Unknown";  	
-    
-	var JoinedHands = false;
-	var WaveRight = false;
-	var WaveLeft = false;
-	var SwipeLeft = false;
-	var SwipeRight = false;
-	var SwipeUp = false;
-	var SwipeDown = false;
-	var ZoomIn = false;
-	var ZoomOut = false;
-	
+    var leftHandState = "Unknown";
+
+    var JoinedHands = false;
+    var WaveRight = false;
+    var WaveLeft = false;
+    var SwipeLeft = false;
+    var SwipeRight = false;
+    var SwipeUp = false;
+    var SwipeDown = false;
+    var ZoomIn = false;
+    var ZoomOut = false;
+
     var connection = new WebSocket('ws://localhost:8181/');
 
     connection.onopen = function () {
@@ -52,21 +51,19 @@
 
     connection.onmessage = function (e) {
         // console.log(e.data); Commenting out as data is coming in, now fix the parsing
-        var kdata = JSON.parse(e.data);        
-	// Check if it's a body (could be a face etc.)
-	if(kdata.type == "body")
-	{
-		//console.log("Parsing body data");
-		rightHandState = kdata.rightHandState;
-    		leftHandState  = kdata.leftHandState;
-    		//console.log("Right hand is now: " + rightHandState);
-    		//console.log("Left hand is now: " + leftHandState);
-		//jointData[obj.joint] = obj;
-	}
-	else
-	{
-		console.log("Strange data");
-	}
+        var kdata = JSON.parse(e.data);
+        // Check if it's a body (could be a face etc.)
+        if (kdata.type == "body") {
+            //console.log("Parsing body data");
+            rightHandState = kdata.rightHandState;
+            leftHandState = kdata.leftHandState;
+            //console.log("Right hand is now: " + rightHandState);
+            //console.log("Left hand is now: " + leftHandState);
+            //jointData[obj.joint] = obj;
+        }
+        else {
+            console.log("Strange data");
+        }
     }
 
     // Cleanup function when the extension is unloaded
@@ -74,15 +71,15 @@
 
     // Status reporting code
     // Use this to report missing hardware, plugin or unsupported browser
-    ext._getStatus = function () {        
+    ext._getStatus = function () {
         if (connection.readyState == 1) {
             return { status: 2, msg: 'Connected' };
-        } 
-        else {               
-            return { status: 1, msg: 'Not connected, attempting reconnection...' };                
         }
-    };    
-    
+        else {
+            return { status: 1, msg: 'Not connected, attempting reconnection...' };
+        }
+    };
+
     ext.Disconnect = function (callback) {
         if (!(connection === null)) {
             if (connection.readyState == 1) {
@@ -93,35 +90,33 @@
     };
 
     ext.getLimbValue = function (coordinate, side, bodyPart) {
-	var j = jointData[bodyPart + side];
-	return JSON.stringify(j[coordinate]);
-    };
-    
-	ext.getTorsoValue = function (coordinate, torso) {
-		var j = jointData[torso];
-		return JSON.stringify(j[coordinate]);
-    };
-    
-	ext.getHandState = function (side, state) {
-		//console.log("Request for: " + side + " hand in state: " + state + " and our right hand is " + rightHandState);
-		if(side == "Right" && rightHandState == state)
-		{
-			//console.log("returning true for right hand in state " + state);
-			return true;
-		}
-		if(side == "Left" && leftHandState == state)
-		{
-			console.log("returning true for left hand in state " + state);
-			return JSON.stringify(true);
-		}
-		return JSON.stringify(false);
+        var j = jointData[bodyPart + side];
+        return JSON.stringify(j[coordinate]);
     };
 
-	ext.joinedHandsDetected = function () {
-		var j = handStateData[side+"Hand"];
-		return JSON.stringify(j[state]);
+    ext.getTorsoValue = function (coordinate, torso) {
+        var j = jointData[torso];
+        return JSON.stringify(j[coordinate]);
     };
-	
+
+    ext.getHandState = function (side, state) {
+        //console.log("Request for: " + side + " hand in state: " + state + " and our right hand is " + rightHandState);
+        if (side == "Right" && rightHandState == state) {
+            //console.log("returning true for right hand in state " + state);
+            return true;
+        }
+        if (side == "Left" && leftHandState == state) {
+            //console.log("returning true for left hand in state " + state);
+            return true;
+        }
+        return false;
+    };
+
+    ext.joinedHandsDetected = function () {
+        var j = handStateData[side + "Hand"];
+        return JSON.stringify(j[state]);
+    };
+
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
@@ -136,12 +131,12 @@
 			['h', 'When Joined Hands detected', 'joinedHandsDetected']
         ],
         menus: {
-            	coordinate: ["x", "y", "z"],
-            	side: ["Right", "Left"],
-		swipeDirections: ["Right", "Left", "Up", "Down"],
-		state: ["Open", "Closed", "Lasso", "Unknown"],
-		torso: ["Head", "Neck", "SpineShoulder", "SpineMid", "SpineBase"],
-		limbs: [ "Shoulder", "Elbow", "Wrist", "Hand", "HandTip", "Thumb", "Hip", "Knee", "Ankle", "Foot" ]
+            coordinate: ["x", "y", "z"],
+            side: ["Right", "Left"],
+            swipeDirections: ["Right", "Left", "Up", "Down"],
+            state: ["Open", "Closed", "Lasso", "Unknown"],
+            torso: ["Head", "Neck", "SpineShoulder", "SpineMid", "SpineBase"],
+            limbs: ["Shoulder", "Elbow", "Wrist", "Hand", "HandTip", "Thumb", "Hip", "Knee", "Ankle", "Foot"]
         },
         url: 'http://stephenhowell.github.io'
     };
