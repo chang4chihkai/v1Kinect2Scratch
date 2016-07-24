@@ -22,7 +22,7 @@
  
 (function (ext)
 {	   
-    var Nouns =  { "Fruit": ["Apples", "Bananas", "Oranges"], "Animals" = [ "Cat", "Dog", "Monkey" ], "Countries": [ "England", "Ireland", "Scotland" ] };
+    var Nouns =  { "Fruit": ["Apples", "Bananas", "Oranges"], "Animals": [ "Cat", "Dog", "Monkey" ], "Countries": [ "England", "Ireland", "Scotland" ] };
 	
 	ext.getRandomWord = function (nounList) {		
 		// Get noun list requested
