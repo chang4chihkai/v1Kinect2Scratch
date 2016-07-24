@@ -129,7 +129,7 @@
     //jointData.Head[0]        
     ext.getTorsoValue = function (coordinate, torsoJoint) {
         
-        var joint = jointData.torsoJoint;
+        var joint = jointData[torsoJoint];
         console.log(JSON.stringify(joint));
         if (coordinate == "x")
             return joint[0]; 
