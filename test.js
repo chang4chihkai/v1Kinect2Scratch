@@ -196,9 +196,10 @@
 			['r', 'get %m.coordinate position of %m.side %m.limbs', 'getLimbValue', 'y', 'Right', 'Hand'],
 			['r', 'get %m.coordinate position of %m.torso', 'getTorsoValue', 'x', 'Head'],
 			['b', '%m.side Hand is %m.state', 'getHandState', 'Right', 'Closed'],
+            ['b', '%m.side Hand is %m.state', 'getHandState', 'Left', 'Lasso'],
             //['b', 'hands joined', 'handsJoined'],
-			['h', 'When User Enters View', 'userEntered'],
-			['h', 'When User Exits View', 'userLost'],
+			//['h', 'When User Enters View', 'userEntered'],
+			//['h', 'When User Exits View', 'userLost'],
 			//['h', 'When Wave %m.side detected', 'waveDetected', 'Right'],
 			//['h', 'When Swipe %m.swipeDirections detected', 'swipeDetected', 'Right'],
 			//['h', 'When Joined Hands detected', 'joinedHandsDetected']
