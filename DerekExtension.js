@@ -37,7 +37,7 @@
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
-            ['r', 'get random between %n and %n', 'getRandomValue', 1, 10]
+            ['r', 'get random between %n and %n', 'getRandomValue', 1, 10],
 			['r', 'get random noun from list %m.nouns', getRandomWord, 'Fruit']
         ],
         menus: {            
