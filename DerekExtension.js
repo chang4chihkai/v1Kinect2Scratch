@@ -21,8 +21,39 @@
 //THE SOFTWARE.
  
 (function (ext)
-{	
-    // Cleanup function when the extension is unloaded
+{	   
+    var Fruit = { "Apples", "Bananas", "Oranges" };
+	var Animals = { "Cat", "Dog", "Monkey" };
+	var Countries = { "England", "Ireland", "Scotland" };
+	
+	ext.getRandomWord = function (nounList) {		
+		// Get noun list requested
+		if(nounList == 'Fruit')
+		{
+			// return random value from array list
+			return Fruit[Math.floor(Math.Random(Fruit.length))];
+		}
+		return "Confused.com";	
+    };
+    
+	ext.getRandomValue = function (min, max) {		
+		return Math.floor((Math.random() * max) + min) ;
+    };
+    
+    // Block and block menu descriptions
+    var descriptor = {
+        blocks: [
+            ['r', 'get random between %n and %n', 'getRandomValue', 1, 10]
+			['r', 'get random noun from list %m.nouns', getRandomWord, 'Fruit']
+        ],
+        menus: {            
+		        nouns: ['Fruit', 'Animals', 'Countries'],
+        
+        
+        },
+        url: 'http://derekbreen.com/scratchlinks'
+    };
+// Cleanup function when the extension is unloaded
     ext._shutdown = function () {  };
 
     // Status reporting code
@@ -33,20 +64,6 @@
     
     ext.Disconnect = function (callback) {
     
-    };
-
-    ext.getRandomValue = function (min, max) {		
-		return Math.floor((Math.random() * max) + min) ;
-    };
-    
-    // Block and block menu descriptions
-    var descriptor = {
-        blocks: [
-            ['r', 'get random value between %n and %n', 'getRandomValue', 1, 10]
-        ],
-        menus: {            
-        },
-        url: 'http://derekbreen.com/scratchlinks'
     };
 
     // Register the extension
