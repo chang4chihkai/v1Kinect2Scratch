@@ -132,11 +132,11 @@
         var joint = jointData.torsoJoint;
         console.log(JSON.stringify(joint));
         if (coordinate == "x")
-            return joint[0]; //test if stringify needed?
+            return joint[0]; 
         else if (coordinate == "y")
-            return JSON.stringify(joint[1]);
+            return joint[1];
         else if (coordinate == "z")
-            return JSON.stringify(joint[2]);
+            return joint[2];
         else
             return null; // or 0?
     };
