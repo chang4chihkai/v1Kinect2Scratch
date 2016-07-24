@@ -35,6 +35,10 @@
     
 
     var connection = new WebSocket('ws://localhost:8181/');
+    ext.connect = function (address, port)
+    {
+        connection = new WebSocket('ws://' + address + ':' + port + '/');
+    };
 
     connection.onopen = function () {
         console.log('Connection open!');
@@ -156,6 +160,8 @@
         return false;
     };
 
+    // Leaving these out for now...
+    /*
     ext.joinedHandsDetected = function () {
         var j = handStateData[side + "Hand"];
         return JSON.stringify(j[state]);
@@ -181,20 +187,21 @@
 
         return false;
     };
-
+    */
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
+            ['w', 'Listen to Kinect at address %n on port %n', 'connect', 'localhost', '8181'],
             ['r', 'get %m.coordinate position of %m.side %m.limbs', 'getLimbValue', 'x', 'Right', 'Hand'],
 			['r', 'get %m.coordinate position of %m.side %m.limbs', 'getLimbValue', 'y', 'Right', 'Hand'],
 			['r', 'get %m.coordinate position of %m.torso', 'getTorsoValue', 'x', 'Head'],
 			['b', '%m.side Hand is %m.state', 'getHandState', 'Right', 'Closed'],
-            ['b', 'hands joined', 'handsJoined'],
+            //['b', 'hands joined', 'handsJoined'],
 			['h', 'When User Enters View', 'userEntered'],
 			['h', 'When User Exits View', 'userLost'],
-			['h', 'When Wave %m.side detected', 'waveDetected', 'Right'],
-			['h', 'When Swipe %m.swipeDirections detected', 'swipeDetected', 'Right'],
-			['h', 'When Joined Hands detected', 'joinedHandsDetected']
+			//['h', 'When Wave %m.side detected', 'waveDetected', 'Right'],
+			//['h', 'When Swipe %m.swipeDirections detected', 'swipeDetected', 'Right'],
+			//['h', 'When Joined Hands detected', 'joinedHandsDetected']
         ],
         menus: {
             coordinate: ["x", "y", "z"],
