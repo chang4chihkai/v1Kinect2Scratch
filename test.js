@@ -122,23 +122,28 @@
     };
 
     ext.getLimbValue = function (coordinate, side, bodyPart) {
-        var j = jointData[bodyPart + side];
-        return JSON.stringify(j[coordinate]);
-    };
-
-    //jointData.Head[0]        
-    ext.getTorsoValue = function (coordinate, torsoJoint) {
-        
-        var joint = jointData[torsoJoint];
-        console.log(JSON.stringify(joint));
+        var joint = jointData[bodyPart + side];
         if (coordinate == "x")
-            return joint[0]; 
+            return joint[0];
         else if (coordinate == "y")
             return joint[1];
         else if (coordinate == "z")
             return joint[2];
         else
-            return null; // or 0?
+            return 0;
+    };
+
+    //jointData.Head[0]        
+    ext.getTorsoValue = function (coordinate, torsoJoint) {        
+        var joint = jointData[torsoJoint];        
+        if (coordinate == "x")
+            return joint[0];
+        else if (coordinate == "y")
+            return joint[1];
+        else if (coordinate == "z")
+            return joint[2];
+        else
+            return 0;
     };
 
     ext.getHandState = function (side, state) {
