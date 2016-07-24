@@ -19,43 +19,46 @@
 //LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //THE SOFTWARE.
- 
-(function (ext)
-{	   
-    var Nouns =  { "Fruit": ["Apples", "Bananas", "Oranges"], "Animals": [ "Cat", "Dog", "Monkey" ], "Countries": [ "England", "Ireland", "Scotland" ] };
-	
-	ext.getRandomWord = function (nounList) {		
-		// Get noun list requested
-		// return random value from array list
-		return Nouns.nounList[Math.floor(Math.Random(Nouns.nounList.length))];
+
+(function (ext) {
+    var Nouns =
+    {
+        "Fruit": ["Apples", "Bananas", "Oranges"],
+        "Animals": ["Cat", "Dog", "Monkey"],
+        "Countries": ["England", "Ireland", "Scotland"]
     };
-    
-	ext.getRandomValue = function (min, max) {		
-		return Math.floor((Math.random() * max) + min) ;
+
+    ext.getRandomWord = function (nounList) {
+        // Get noun list requested
+        // return random value from array list
+        return Nouns.nounList[Math.floor(Math.Random(Nouns.nounList.length))];
     };
-    
+
+    ext.getRandomValue = function (min, max) {
+        return Math.floor((Math.random() * max) + min);
+    };
+
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
-            ['r', 'get random between %n and %n', 'getRandomValue', 1, 10],
 			['r', 'get random noun from list %m.nouns', getRandomWord, 'Fruit']
         ],
-        menus: {            
-		        nouns: ['Fruit', 'Animals', 'Countries']                
+        menus: {
+            nouns: ['Fruit', 'Animals', 'Countries']
         },
         url: 'http://derekbreen.com/scratchlinks'
     };
-// Cleanup function when the extension is unloaded
-    ext._shutdown = function () {  };
+    // Cleanup function when the extension is unloaded
+    ext._shutdown = function () { };
 
     // Status reporting code
     // Use this to report missing hardware, plugin or unsupported browser
-    ext._getStatus = function ()  {                
-		return { status: 2, msg: 'Connected' };           
-    };    
-    
+    ext._getStatus = function () {
+        return { status: 2, msg: 'Connected' };
+    };
+
     ext.Disconnect = function (callback) {
-    
+
     };
 
     // Register the extension
