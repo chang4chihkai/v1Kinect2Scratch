@@ -52,10 +52,9 @@
         console.log('Error detected: ' + error.toString());
     }
 
-    connection.onmessage = function (e) {
-        // console.log(e.data); Commenting out as data is coming in, now fix the parsing
+    connection.onmessage = function (e) {        
         var kdata = JSON.parse(e.data);
-        // console.log(JSON.stringify(kdata));
+         console.log(JSON.stringify(kdata));
         // Check if it's a body (could be a face etc.)
         if (kdata.type == "body") {
             jointData = kdata.joints;
@@ -191,8 +190,8 @@
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
-            ['w', 'Listen to Kinect at address %n on port %n', 'connect', 'localhost', '8181'],
-            ['r', 'get %m.coordinate position of %m.side %m.limbs', 'getLimbValue', 'x', 'Right', 'Hand'],
+            //['w', 'Listen to Kinect at address %n on port %n', 'connect', 'localhost', '8181'],
+            ['r', 'get %m.coordinate of %m.side %m.limbs', 'getLimbValue', 'x', 'Right', 'Hand'],
 			['r', 'get %m.coordinate position of %m.side %m.limbs', 'getLimbValue', 'y', 'Right', 'Hand'],
 			['r', 'get %m.coordinate position of %m.torso', 'getTorsoValue', 'x', 'Head'],
 			['b', '%m.side Hand is %m.state', 'getHandState', 'Right', 'Closed'],
