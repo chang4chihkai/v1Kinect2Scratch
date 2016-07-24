@@ -157,6 +157,7 @@
     };
 
     ext.waveDetected = function (side) {
+        console.log("In WaveDetected");
         var waveVal = false;
         if (side == "Right")
         {
