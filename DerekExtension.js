@@ -22,18 +22,12 @@
  
 (function (ext)
 {	   
-    var Fruit = { "Apples", "Bananas", "Oranges" };
-	var Animals = { "Cat", "Dog", "Monkey" };
-	var Countries = { "England", "Ireland", "Scotland" };
+    var Nouns =  { "Fruit": ["Apples", "Bananas", "Oranges"], "Animals" = [ "Cat", "Dog", "Monkey" ], "Countries": [ "England", "Ireland", "Scotland" ] };
 	
 	ext.getRandomWord = function (nounList) {		
 		// Get noun list requested
-		if(nounList == 'Fruit')
-		{
-			// return random value from array list
-			return Fruit[Math.floor(Math.Random(Fruit.length))];
-		}
-		return "Confused.com";	
+		// return random value from array list
+		return Nouns.nounList[Math.floor(Math.Random(Nouns.nounList.length))];
     };
     
 	ext.getRandomValue = function (min, max) {		
@@ -47,9 +41,7 @@
 			['r', 'get random noun from list %m.nouns', getRandomWord, 'Fruit']
         ],
         menus: {            
-		        nouns: ['Fruit', 'Animals', 'Countries'],
-        
-        
+		        nouns: ['Fruit', 'Animals', 'Countries']                
         },
         url: 'http://derekbreen.com/scratchlinks'
     };
