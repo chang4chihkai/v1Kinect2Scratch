@@ -35,14 +35,14 @@
     
     };
 
-    ext.getRandomValue = function () {
-		return 2;
+    ext.getRandomValue = function (min, max) {		
+		return Math.floor((Math.random() * max) + min) ;
     };
     
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
-            ['r', 'get random value', 'getRandomValue']
+            ['r', 'get random value between %n and %n', 'getRandomValue', 1, 10]
         ],
         menus: {            
         },
