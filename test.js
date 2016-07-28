@@ -120,7 +120,7 @@
     {
         var index = convertDescToIndex(desc);
         var joint = bodies[index].jointData[bodyPart + side]; // bodies...index...
-        console.log(JSON.stringify(joint));
+        console.log("Joint is " + JSON.stringify(joint));
         if (coordinate == "x")
             return joint[0];
         else if (coordinate == "y")
@@ -131,8 +131,9 @@
             return 0;
     };
       
-    ext.getTorsoValue = function (coordinate, torsoJoint, index) {        
-        var joint = bodiesjointData[torsoJoint];        
+    ext.getTorsoValue = function (coordinate, torsoJoint, desc) {        
+        var index = convertDescToIndex(desc);
+        var joint = bodies[index].jointData[torsoJoint];
         if (coordinate == "x")
             return joint[0];
         else if (coordinate == "y")
@@ -174,8 +175,8 @@
             ['r', '%m.coordinate of %m.side %m.limbs of %m.index', 'getLimbValue', 'y', 'Right', 'Hand', 'Closest Person'],
             ['r', '%m.coordinate of %m.side %m.limbs of %m.index', 'getLimbValue', 'z', 'Right', 'Hand', 'Closest Person'],			
 			['r', '%m.coordinate of %m.torso of %m.index', 'getTorsoValue', 'x', 'Head', 'Closest Person'],
-			['b', '%m.index %m.side Hand is %m.state', 'Closest Person', 'getHandState', 'Right', 'Closed'],
-            ['b', '%m.index %m.side Hand is %m.state', 'Closest Person', 'getHandState', 'Left', 'Lasso'],
+			['b', '%m.index %m.side Hand is %m.state', 'getHandState', 'Closest Person', 'Right', 'Closed'],
+            ['b', '%m.index %m.side Hand is %m.state', 'getHandState', 'Closest Person', 'Left', 'Lasso'],
             ['h', 'When a person exits view', 'userLost']
         ],
         menus: {
