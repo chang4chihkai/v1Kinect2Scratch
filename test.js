@@ -21,34 +21,28 @@
 //THE SOFTWARE.
 
 (function (ext) {
-    //var
-    var jointData = { "SpineBase": null, "SpineMid": null, "Neck": null, "Head": null, "ShoulderLeft": null, "ElbowLeft": null, "WristLeft": null, "HandLeft": null, "ShoulderRight": null, "ElbowRight": null, "WristRight": null, "HandRight": null, "HipLeft": null, "KneeLeft": null, "AnkleLeft": null, "FootLeft": null, "HipRight": null, "KneeRight": null, "AnkleRight": null, "FootRight": null, "SpineShoulder": null, "HandTipLeft": null, "ThumbLeft": null, "HandTipRight": null, "ThumbRight": null };
-
-    var bodies = [jointData, jointData, jointData, jointData, jointData, jointData];
-    var rightHandState = "Unknown";
-    var leftHandState = "Unknown";
-
-    var JoinedHands = false;
-    var WaveRight = false;
-    var WaveLeft = false;
-    var SwipeLeft = false;
-    var SwipeRight = false;
-    var SwipeUp = false;
-    var SwipeDown = false;
     
+    var jointData = { rightHandState: "Unknown", leftHandState: "Unknown", "SpineBase": null, "SpineMid": null, "Neck": null, "Head": null, "ShoulderLeft": null, "ElbowLeft": null, "WristLeft": null, "HandLeft": null, "ShoulderRight": null, "ElbowRight": null, "WristRight": null, "HandRight": null, "HipLeft": null, "KneeLeft": null, "AnkleLeft": null, "FootLeft": null, "HipRight": null, "KneeRight": null, "AnkleRight": null, "FootRight": null, "SpineShoulder": null, "HandTipLeft": null, "ThumbLeft": null, "HandTipRight": null, "ThumbRight": null };    
+
+    var bodies = [jointData, jointData, jointData, jointData, jointData, jointData, jointData]; // Closest and 6 maximum bodies
+    
+    var entry = false;
+    var exit = false;
+
 
     var connection = new WebSocket('ws://localhost:8181/');
+    
     ext.connect = function (address, port)
     {
         connection = new WebSocket('ws://' + address + ':' + port + '/');
     };
 
     connection.onopen = function () {
-        console.log('Connection open!');
+        console.log('Connection to localhost:8181 open!');
     }
 
     connection.onclose = function () {
-        console.log('Connection closed');
+        console.log('Connection to localhost:8181 closed!');
     }
 
     connection.onerror = function (error) {
@@ -56,46 +50,23 @@
     }
 
     connection.onmessage = function (e) {        
-        var kdata = JSON.parse(e.data);
-        // console.log(JSON.stringify(kdata));
+        var kdata = JSON.parse(e.data); // console.log(JSON.stringify(kdata));
+
         // Check if it's a body (could be a face etc.)
         if (kdata.type == "body") {
             bodies[kdata.index] = kdata.joints;
-            rightHandState = kdata.rightHandState;
-            leftHandState = kdata.leftHandState;            
+            bodies[kdata.index]["rightHandState"] = kdata.rightHandState;
+            bodies[kdata.index]["leftHandState"] = kdata.leftHandState;            
         }
-        else if (kdata.type == "gesture") {
-            switch(kdata.gesture)
+        else if (kdata.type == "event")
+        {
+            if(kdata.eventType == "entry")
             {
-                //     Hands joined in front of chest.
-                case "JoinedHands":
-                    JoinedHands = true;
-                    break;
-                //     Waving using the right hand.
-                case "WaveRight":
-                    WaveRight = true;
-                    break;
-                //     Waving using the left hand.
-                case "WaveLeft":
-                    WaveLeft = true;
-                    break;
-                //     Hand moved horizontally from right to left.
-                case "SwipeLeft":
-                    SwipeLeft = true;
-                    break;
-                //     Hand moved horizontally from left to right.
-                case "SwipeRight":
-                    SwipeRight = true;
-                    break;
-                //     Hand moved vertically from hip center to head.
-                case "SwipeUp":
-                    SwipeUp = true;
-                    break;
-                //     Hand moved vertically from head to hip center.
-                case "SwipeDown":
-                    SwipeDown = true;
-                    break;
-                
+                entry = true;
+            }
+            else if(kdata.eventType == "exit")
+            {
+                exit = true;
             }
                      
         }
@@ -127,7 +98,8 @@
         }
     };
 
-    ext.getLimbValue = function (coordinate, side, bodyPart, index) {
+    ext.getLimbValue = function (coordinate, side, bodyPart, index)
+    {
 
         var joint = jointData[bodyPart + side]; // bodies...index...
         if (coordinate == "x")
@@ -139,8 +111,7 @@
         else
             return 0;
     };
-
-    //jointData.Head[0]        
+      
     ext.getTorsoValue = function (coordinate, torsoJoint) {        
         var joint = jointData[torsoJoint];        
         if (coordinate == "x")
@@ -163,38 +134,21 @@
         return false;
     };
 
-    // Leaving these out for now...
-    /*
-    ext.joinedHandsDetected = function () {
-        var j = handStateData[side + "Hand"];
-        return JSON.stringify(j[state]);
+    ext.userEntered = function () {
+        var result = entry;
+        entry = false;
+        return result;
     };
 
-    ext.waveDetected = function (side) {
-        console.log("In WaveDetected");
-        var waveVal = false;
-        if (side == "Right")
-        {
-            waveVal = WaveRight;
-            WaveRight = false;
-        }
-        else if (side == "Left")
-        {
-            waveVal = WaveLeft;
-            WaveLeft = false;
-        }
-        return waveVal;
+    ext.userLost = function () {
+        var result = exit;
+        exit = false;
+        return result;
     };
 
-    ext.swipeDetected = function (swipeDirection) {
-
-        return false;
-    };
-    */
     // Block and block menu descriptions
     var descriptor = {
-        blocks: [
-            //['w', 'Listen to Kinect at address %n on port %n', 'connect', 'localhost', '8181'],
+        blocks: [            
             ['h', 'When a person enters view', 'userEntered'],
             ['r', 'number of tracked people', 'getTrackedUsers'],
             ['r', '%m.coordinate of %m.side %m.limbs of %m.index', 'getLimbValue', 'x', 'Right', 'Hand', 'Closest Person'],
@@ -204,10 +158,6 @@
 			['b', '%m.side Hand is %m.state', 'getHandState', 'Right', 'Closed'],
             ['b', '%m.side Hand is %m.state', 'getHandState', 'Left', 'Lasso'],
             ['h', 'When a person exits view', 'userLost']
-            //['b', 'hands joined', 'handsJoined'],
-			//['h', 'When Wave %m.side detected', 'waveDetected', 'Right'],
-			//['h', 'When Swipe %m.swipeDirections detected', 'swipeDetected', 'Right'],
-			//['h', 'When Joined Hands detected', 'joinedHandsDetected']
         ],
         menus: {
             index: ["Closest Person", "Person 1", "Person 2", "Person 3", "Person 4", "Person 5", "Person 6"],
@@ -222,7 +172,7 @@
     };
 
     // Register the extension
-    ScratchExtensions.register('Kinectv2 To ScratchX 3.14', descriptor, ext);
+    ScratchExtensions.register('Kinect To ScratchX 3', descriptor, ext);
 
 })({});
 
