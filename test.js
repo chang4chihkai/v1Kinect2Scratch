@@ -195,21 +195,21 @@
     var descriptor = {
         blocks: [
             //['w', 'Listen to Kinect at address %n on port %n', 'connect', 'localhost', '8181'],
-            ['h', 'When a person enters', 'userEntered'],
-            ['r', 'number of tracked users', 'getTrackedUsers'],
-            ['r', '%m.coordinate of %m.side %m.limbs of %m.index', 'getLimbValue', 'x', 'Right', 'Hand', 'Person 1'],
+            ['h', 'When a person enters view', 'userEntered'],
+            ['r', 'number of tracked people', 'getTrackedUsers'],
+            ['r', '%m.coordinate of %m.side %m.limbs of %m.index', 'getLimbValue', 'x', 'Right', 'Hand', 'Closest Person'],
 			['r', 'get %m.coordinate position of %m.side %m.limbs', 'getLimbValue', 'y', 'Right', 'Hand'],
 			['r', 'get %m.coordinate position of %m.torso', 'getTorsoValue', 'x', 'Head'],
 			['b', '%m.side Hand is %m.state', 'getHandState', 'Right', 'Closed'],
             ['b', '%m.side Hand is %m.state', 'getHandState', 'Left', 'Lasso'],
-            ['h', 'When a person exits', 'userLost']
+            ['h', 'When a person exits view', 'userLost']
             //['b', 'hands joined', 'handsJoined'],
 			//['h', 'When Wave %m.side detected', 'waveDetected', 'Right'],
 			//['h', 'When Swipe %m.swipeDirections detected', 'swipeDetected', 'Right'],
 			//['h', 'When Joined Hands detected', 'joinedHandsDetected']
         ],
         menus: {
-            index: ["Person 1", "Person 2", "Person 3", "Person 4", "Person 5", "Person 6"],
+            index: ["Closest Person", "Person 1", "Person 2", "Person 3", "Person 4", "Person 5", "Person 6"],
             coordinate: ["x", "y", "z"],
             side: ["Right", "Left"],
             swipeDirections: ["Right", "Left", "Up", "Down"],
