@@ -25,7 +25,9 @@
     var jointData = { rightHandState: "Unknown", leftHandState: "Unknown", "SpineBase": null, "SpineMid": null, "Neck": null, "Head": null, "ShoulderLeft": null, "ElbowLeft": null, "WristLeft": null, "HandLeft": null, "ShoulderRight": null, "ElbowRight": null, "WristRight": null, "HandRight": null, "HipLeft": null, "KneeLeft": null, "AnkleLeft": null, "FootLeft": null, "HipRight": null, "KneeRight": null, "AnkleRight": null, "FootRight": null, "SpineShoulder": null, "HandTipLeft": null, "ThumbLeft": null, "HandTipRight": null, "ThumbRight": null };    
 
     var bodies = [jointData, jointData, jointData, jointData, jointData, jointData, jointData]; // Closest and 6 maximum bodies
-    
+
+    var numTracked = 0;
+
     var entry = false;
     var exit = false;
 
@@ -56,7 +58,8 @@
         if (kdata.type == "body") {
             bodies[kdata.index] = kdata.joints;
             bodies[kdata.index]["rightHandState"] = kdata.rightHandState;
-            bodies[kdata.index]["leftHandState"] = kdata.leftHandState;            
+            bodies[kdata.index]["leftHandState"] = kdata.leftHandState;
+            numTracked = kdata.numTracked;
         }
         else if (kdata.type == "event")
         {
