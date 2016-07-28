@@ -21,7 +21,10 @@
 //THE SOFTWARE.
 
 (function (ext) {
+    //var
     var jointData = { "SpineBase": null, "SpineMid": null, "Neck": null, "Head": null, "ShoulderLeft": null, "ElbowLeft": null, "WristLeft": null, "HandLeft": null, "ShoulderRight": null, "ElbowRight": null, "WristRight": null, "HandRight": null, "HipLeft": null, "KneeLeft": null, "AnkleLeft": null, "FootLeft": null, "HipRight": null, "KneeRight": null, "AnkleRight": null, "FootRight": null, "SpineShoulder": null, "HandTipLeft": null, "ThumbLeft": null, "HandTipRight": null, "ThumbRight": null };
+
+    var bodies = [jointData, jointData, jointData, jointData, jointData, jointData];
     var rightHandState = "Unknown";
     var leftHandState = "Unknown";
 
@@ -54,10 +57,10 @@
 
     connection.onmessage = function (e) {        
         var kdata = JSON.parse(e.data);
-         console.log(JSON.stringify(kdata));
+        // console.log(JSON.stringify(kdata));
         // Check if it's a body (could be a face etc.)
         if (kdata.type == "body") {
-            jointData = kdata.joints;
+            bodies[kdata.index] = kdata.joints;
             rightHandState = kdata.rightHandState;
             leftHandState = kdata.leftHandState;            
         }
@@ -124,8 +127,9 @@
         }
     };
 
-    ext.getLimbValue = function (coordinate, side, bodyPart) {
-        var joint = jointData[bodyPart + side];
+    ext.getLimbValue = function (coordinate, side, bodyPart, index) {
+
+        var joint = jointData[bodyPart + side]; // bodies...index...
         if (coordinate == "x")
             return joint[0];
         else if (coordinate == "y")
@@ -191,19 +195,21 @@
     var descriptor = {
         blocks: [
             //['w', 'Listen to Kinect at address %n on port %n', 'connect', 'localhost', '8181'],
-            ['r', 'get %m.coordinate of %m.side %m.limbs', 'getLimbValue', 'x', 'Right', 'Hand'],
+            ['h', 'When a person enters', 'userEntered'],
+            ['r', 'number of tracked users', 'getTrackedUsers']
+            ['r', '%m.coordinate of %m.side %m.limbs of %m.index', 'getLimbValue', 'x', 'Right', 'Hand', 'Person 1'],
 			['r', 'get %m.coordinate position of %m.side %m.limbs', 'getLimbValue', 'y', 'Right', 'Hand'],
 			['r', 'get %m.coordinate position of %m.torso', 'getTorsoValue', 'x', 'Head'],
 			['b', '%m.side Hand is %m.state', 'getHandState', 'Right', 'Closed'],
             ['b', '%m.side Hand is %m.state', 'getHandState', 'Left', 'Lasso'],
+            ['h', 'When a person exits', 'userLost'],
             //['b', 'hands joined', 'handsJoined'],
-			//['h', 'When User Enters View', 'userEntered'],
-			//['h', 'When User Exits View', 'userLost'],
 			//['h', 'When Wave %m.side detected', 'waveDetected', 'Right'],
 			//['h', 'When Swipe %m.swipeDirections detected', 'swipeDetected', 'Right'],
 			//['h', 'When Joined Hands detected', 'joinedHandsDetected']
         ],
         menus: {
+            index: ["Person 1", "Person 2", "Person 3", "Person 4", "Person 5", "Person 6"],
             coordinate: ["x", "y", "z"],
             side: ["Right", "Left"],
             swipeDirections: ["Right", "Left", "Up", "Down"],
