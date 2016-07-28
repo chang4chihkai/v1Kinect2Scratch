@@ -97,11 +97,27 @@
             } else { console.log("Disconnect: socket already disconnected"); }
         }
     };
+    
+    // There must be a nicer way to do this
+    ext.convertDescToIndex = function (bodyDesc) {
+        switch (bodyDesc)
+        {
+            case 'Closest Person': return 0; break;
+            case 'Person 1': return 1; break;
+            case 'Person 2': return 2; break;
+            case 'Person 3': return 3; break;
+            case 'Person 4': return 4; break;
+            case 'Person 5': return 5; break;
+            case 'Person 6': return 6; break;
+        }
+        return 0;
+    };
 
-    ext.getLimbValue = function (coordinate, side, bodyPart, index)
+    ext.getLimbValue = function (coordinate, side, bodyPart, desc)
     {
-
-        var joint = jointData[bodyPart + side]; // bodies...index...
+        var index = convertDescToIndex(desc);
+        var joint = bodies[index].jointData[bodyPart + side]; // bodies...index...
+        console.log(JSON.stringify(joint));
         if (coordinate == "x")
             return joint[0];
         else if (coordinate == "y")
@@ -112,8 +128,8 @@
             return 0;
     };
       
-    ext.getTorsoValue = function (coordinate, torsoJoint) {        
-        var joint = jointData[torsoJoint];        
+    ext.getTorsoValue = function (coordinate, torsoJoint, index) {        
+        var joint = bodiesjointData[torsoJoint];        
         if (coordinate == "x")
             return joint[0];
         else if (coordinate == "y")
@@ -124,7 +140,7 @@
             return 0;
     };
 
-    ext.getHandState = function (side, state) {
+    ext.getHandState = function (side, state, index) {
         if (side == "Right" && rightHandState == state)
             return true;
 
@@ -154,9 +170,9 @@
             ['r', '%m.coordinate of %m.side %m.limbs of %m.index', 'getLimbValue', 'x', 'Right', 'Hand', 'Closest Person'],
             ['r', '%m.coordinate of %m.side %m.limbs of %m.index', 'getLimbValue', 'y', 'Right', 'Hand', 'Closest Person'],
             ['r', '%m.coordinate of %m.side %m.limbs of %m.index', 'getLimbValue', 'z', 'Right', 'Hand', 'Closest Person'],			
-			['r', '%m.coordinate of %m.torso', 'getTorsoValue', 'x', 'Head'],
-			['b', '%m.side Hand is %m.state', 'getHandState', 'Right', 'Closed'],
-            ['b', '%m.side Hand is %m.state', 'getHandState', 'Left', 'Lasso'],
+			['r', '%m.coordinate of %m.torso of %m.index', 'getTorsoValue', 'x', 'Head', 'Closest Person'],
+			['b', '%m.index %m.side Hand is %m.state', 'Closest Person', 'getHandState', 'Right', 'Closed'],
+            ['b', '%m.index %m.side Hand is %m.state', 'Closest Person', 'getHandState', 'Left', 'Lasso'],
             ['h', 'When a person exits view', 'userLost']
         ],
         menus: {
