@@ -200,7 +200,7 @@
             ['r', '%m.coordinate of %m.side %m.limbs of %m.index', 'getLimbValue', 'x', 'Right', 'Hand', 'Closest Person'],
             ['r', '%m.coordinate of %m.side %m.limbs of %m.index', 'getLimbValue', 'y', 'Right', 'Hand', 'Closest Person'],
             ['r', '%m.coordinate of %m.side %m.limbs of %m.index', 'getLimbValue', 'z', 'Right', 'Hand', 'Closest Person'],			
-			['r', 'get %m.coordinate position of %m.torso', 'getTorsoValue', 'x', 'Head'],
+			['r', '%m.coordinate of %m.torso', 'getTorsoValue', 'x', 'Head'],
 			['b', '%m.side Hand is %m.state', 'getHandState', 'Right', 'Closed'],
             ['b', '%m.side Hand is %m.state', 'getHandState', 'Left', 'Lasso'],
             ['h', 'When a person exits view', 'userLost']
