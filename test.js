@@ -196,7 +196,7 @@
         blocks: [
             //['w', 'Listen to Kinect at address %n on port %n', 'connect', 'localhost', '8181'],
             ['h', 'When a person enters', 'userEntered'],
-            ['r', 'number of tracked users', 'getTrackedUsers']
+            ['r', 'number of tracked users', 'getTrackedUsers'],
             ['r', '%m.coordinate of %m.side %m.limbs of %m.index', 'getLimbValue', 'x', 'Right', 'Hand', 'Person 1'],
 			['r', 'get %m.coordinate position of %m.side %m.limbs', 'getLimbValue', 'y', 'Right', 'Hand'],
 			['r', 'get %m.coordinate position of %m.torso', 'getTorsoValue', 'x', 'Head'],
