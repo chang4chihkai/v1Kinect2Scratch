@@ -60,9 +60,9 @@
 
         // Check if it's a body (could be a face etc.)
         if (kdata.type == "body") {
-            bodies[kdata.index] = kdata.joints;
-            bodies[kdata.index]["rightHandState"] = kdata.rightHandState;
-            bodies[kdata.index]["leftHandState"] = kdata.leftHandState;            
+            bodies[kdata.bodyIndex] = kdata.joints;
+            bodies[kdata.bodyIndex]["rightHandState"] = kdata.rightHandState;
+            bodies[kdata.bodyIndex]["leftHandState"] = kdata.leftHandState;
         }
         else if (kdata.type == "event")
         {
@@ -110,7 +110,7 @@
     ext.getLimbValue = function (coordinate, side, bodyPart, desc)
     {
         var index = indexDesc[desc];
-        var joint = bodies[index].jointData[bodyPart + side]; // bodies...index...
+        var joint = bodies[index][bodyPart + side]; // bodies...index...
         //console.log("Joint is " + JSON.stringify(joint));
         if (coordinate == "x")
             return joint[0];
@@ -124,7 +124,7 @@
       
     ext.getTorsoValue = function (coordinate, torsoJoint, desc) {        
         var index = indexDesc[desc];
-        var joint = bodies[index].jointData[torsoJoint];
+        var joint = bodies[index][torsoJoint];
         if (coordinate == "x")
             return joint[0];
         else if (coordinate == "y")
