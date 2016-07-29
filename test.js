@@ -168,6 +168,10 @@
         return result;
     };
 
+    ext.getTrackedUsers = function () {        
+        return numTracked;
+    };
+
     // Block and block menu descriptions
     var descriptor = {
         blocks: [            
