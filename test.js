@@ -22,9 +22,11 @@
 
 (function (ext) {
     
-    var jointData = { rightHandState: "Unknown", leftHandState: "Unknown", "SpineBase": null, "SpineMid": null, "Neck": null, "Head": null, "ShoulderLeft": null, "ElbowLeft": null, "WristLeft": null, "HandLeft": null, "ShoulderRight": null, "ElbowRight": null, "WristRight": null, "HandRight": null, "HipLeft": null, "KneeLeft": null, "AnkleLeft": null, "FootLeft": null, "HipRight": null, "KneeRight": null, "AnkleRight": null, "FootRight": null, "SpineShoulder": null, "HandTipLeft": null, "ThumbLeft": null, "HandTipRight": null, "ThumbRight": null };    
+    var jointData = { "rightHandState": "Unknown", "leftHandState": "Unknown", "SpineBase": null, "SpineMid": null, "Neck": null, "Head": null, "ShoulderLeft": null, "ElbowLeft": null, "WristLeft": null, "HandLeft": null, "ShoulderRight": null, "ElbowRight": null, "WristRight": null, "HandRight": null, "HipLeft": null, "KneeLeft": null, "AnkleLeft": null, "FootLeft": null, "HipRight": null, "KneeRight": null, "AnkleRight": null, "FootRight": null, "SpineShoulder": null, "HandTipLeft": null, "ThumbLeft": null, "HandTipRight": null, "ThumbRight": null };    
 
     var bodies = [jointData, jointData, jointData, jointData, jointData, jointData, jointData]; // Closest and 6 maximum bodies
+
+    var indexDesc = { "Closest Person": 0, "Person 1" : 1, "Person 2" : 2, "Person 3": 3, "Person 4": 4, "Person 5": 5, "Person 6": 6 };
 
     var numTracked = 0;
 
@@ -54,14 +56,13 @@
     connection.onmessage = function (e) {        
         var kdata = JSON.parse(e.data);
 
-        console.log(JSON.stringify(kdata));
+        //console.log(JSON.stringify(kdata));
 
         // Check if it's a body (could be a face etc.)
         if (kdata.type == "body") {
             bodies[kdata.index] = kdata.joints;
             bodies[kdata.index]["rightHandState"] = kdata.rightHandState;
-            bodies[kdata.index]["leftHandState"] = kdata.leftHandState;
-            numTracked = kdata.numTracked;
+            bodies[kdata.index]["leftHandState"] = kdata.leftHandState;            
         }
         else if (kdata.type == "event")
         {
@@ -72,8 +73,11 @@
             else if(kdata.eventType == "exit")
             {
                 exit = true;
-            }
-                     
+            }                     
+        }
+        else if (kdata.type == "scene")
+        {
+            numTracked = kdata.numTracked;
         }
     }
 
@@ -102,25 +106,10 @@
             } else { console.log("Disconnect: socket already disconnected"); }
         }
     };
-    
-    // There must be a nicer way to do this
-    ext.convertDescToIndex = function (bodyDesc) {
-        switch (bodyDesc)
-        {
-            case 'Closest Person': return 0; break;
-            case 'Person 1': return 1; break;
-            case 'Person 2': return 2; break;
-            case 'Person 3': return 3; break;
-            case 'Person 4': return 4; break;
-            case 'Person 5': return 5; break;
-            case 'Person 6': return 6; break;
-        }
-        return 0;
-    };
-
+        
     ext.getLimbValue = function (coordinate, side, bodyPart, desc)
     {
-        var index = convertDescToIndex(desc);
+        var index = indexDesc[desc];
         var joint = bodies[index].jointData[bodyPart + side]; // bodies...index...
         console.log("Joint is " + JSON.stringify(joint));
         if (coordinate == "x")
@@ -134,7 +123,7 @@
     };
       
     ext.getTorsoValue = function (coordinate, torsoJoint, desc) {        
-        var index = convertDescToIndex(desc);
+        var index = indexDesc[desc];
         var joint = bodies[index].jointData[torsoJoint];
         if (coordinate == "x")
             return joint[0];
@@ -147,11 +136,15 @@
     };
 
     ext.getHandState = function (side, state, index) {
-        if (side == "Right" && rightHandState == state)
-            return true;
+        var index = indexDesc[desc];
 
-        if (side == "Left" && leftHandState == state)
-            return true;
+        if (side == "Right")
+            if (bodies[index].rightHandState == state)
+                return true;
+
+        if (side == "Left")
+            if (bodies[index].leftHandState == state)
+                return true;
 
         return false;
     };
