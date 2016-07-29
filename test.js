@@ -175,8 +175,8 @@
             ['r', '%m.coordinate of %m.side %m.limbs of %m.index', 'getLimbValue', 'y', 'Right', 'Hand', 'Closest Person'],
             ['r', '%m.coordinate of %m.side %m.limbs of %m.index', 'getLimbValue', 'z', 'Right', 'Hand', 'Closest Person'],			
 			['r', '%m.coordinate of %m.torso of %m.index', 'getTorsoValue', 'x', 'Head', 'Closest Person'],
-			['b', '%m.index %m.side Hand is %m.state', 'getHandState', 'Closest Person', 'Right', 'Closed'],
-            ['b', '%m.index %m.side Hand is %m.state', 'getHandState', 'Closest Person', 'Left', 'Lasso'],
+			['b', '%m.side Hand is %m.state of %m.index', 'getHandState', 'Right', 'Closed', 'Closest Person'],
+            ['b', '%m.side Hand is %m.state of %m.index', 'getHandState', 'Left', 'Lasso', 'Closest Person'],
             ['h', 'When a person exits view', 'userLost']
         ],
         menus: {
