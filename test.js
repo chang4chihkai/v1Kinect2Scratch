@@ -111,7 +111,7 @@
     {
         var index = indexDesc[desc];
         var joint = bodies[index].jointData[bodyPart + side]; // bodies...index...
-        console.log("Joint is " + JSON.stringify(joint));
+        //console.log("Joint is " + JSON.stringify(joint));
         if (coordinate == "x")
             return joint[0];
         else if (coordinate == "y")
