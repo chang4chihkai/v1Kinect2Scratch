@@ -135,7 +135,7 @@
             return 0;
     };
 
-    ext.getHandState = function (side, state, index) {
+    ext.getHandState = function (side, state, desc) {
         var index = indexDesc[desc];
 
         if (side == "Right")
