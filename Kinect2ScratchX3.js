@@ -1,6 +1,6 @@
 // The MIT License (MIT)
 
-// Copyright (c) 2015 Stephen Howell, stephenhowell@outlook.com
+// Copyright (c) 2016 Stephen Howell, stephenhowell@outlook.com
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -91,7 +91,6 @@
             return { status: 2, msg: 'Connected' };
         }
         else {
-            connection = new WebSocket('ws://localhost:8181/'); // Does nae work at all
             return { 
                 status: 1, msg: 'Not connected, attempting reconnection, make sure Kinect2ScratchX is running!' 
             };
@@ -110,8 +109,7 @@
     ext.getLimbValue = function (coordinate, side, bodyPart, desc)
     {
         var index = indexDesc[desc];
-        var joint = bodies[index][bodyPart + side]; // bodies...index...
-        //console.log("Joint is " + JSON.stringify(joint));
+        var joint = bodies[index][bodyPart + side]; 
         if (coordinate == "x")
             return joint[0];
         else if (coordinate == "y")
