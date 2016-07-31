@@ -116,11 +116,11 @@
     {
         var index = indexDesc[desc];
         var joint = bodies[index][bodyPart + side]; 
-        if (coordinate == "x")
+        if (coordinate == "X")
             return joint[0];
-        else if (coordinate == "y")
+        else if (coordinate == "Y")
             return joint[1];
-        else if (coordinate == "z")
+        else if (coordinate == "Z")
             return joint[2];
         else
             return 0;
@@ -129,11 +129,11 @@
     ext.getTorsoValue = function (coordinate, torsoJoint, desc) {        
         var index = indexDesc[desc];
         var joint = bodies[index][torsoJoint];
-        if (coordinate == "x")
+        if (coordinate == "X")
             return joint[0];
-        else if (coordinate == "y")
+        else if (coordinate == "Y")
             return joint[1];
-        else if (coordinate == "z")
+        else if (coordinate == "Z")
             return joint[2];
         else
             return 0;
@@ -168,7 +168,9 @@
     ext.getTrackedUsers = function () {        
         return numTracked;
     };
-	// {"type":"face", "eyeLeft":{"X":49.5357666,"Y":63.5501938},"eyeRight":{"X":70.30209,"Y":57.7280579},"nose":{"X":55.7178345,"Y":43.30278},"mouthLeft":{"X":44.4448547,"Y":33.911972},"mouthRight":{"X":64.18884,"Y":29.565033},"glasses":"Yes","happy":"Maybe","engaged":"No","lookingAway":"Maybe","eyeLeftClosed":"Yes","eyeRightClosed":"Yes","mouthOpen":"Maybe"}
+
+    // Sample: {"type":"face", "eyeLeft":{"X":49.5357666,"Y":63.5501938},"eyeRight":{"X":70.30209,"Y":57.7280579},"nose":{"X":55.7178345,"Y":43.30278},"mouthLeft":{"X":44.4448547,"Y":33.911972},"mouthRight":{"X":64.18884,"Y":29.565033},"glasses":"Yes","happy":"Maybe","engaged":"No","lookingAway":"Maybe","eyeLeftClosed":"Yes","eyeRightClosed":"Yes","mouthOpen":"Maybe"}
+
     // "eyeLeft":{"X":49.5357666,"Y":63.5501938},"eyeRight":{"X":70.30209,"Y":57.7280579},"mouthLeft":{"X":44.4448547,"Y":33.911972},"mouthRight":{"X":64.18884,"Y":29.565033},
     ext.getFaceValue = function (faceCoordinate, side, facePart) {        
         return face[facePart + side][faceCoordinate];
@@ -234,7 +236,7 @@
             ['b', '%m.side Hand is %m.state of %m.index', 'getHandState', 'Left', 'Lasso', 'Closest Person'],
             ['h', 'When a person exits view', 'userLost'],           
             ['r', '%m.faceCoordinate of %m.side %m.face', 'getFaceValue', 'X', 'Right', 'eye'],
-            ['r', '%m.side eye is %m.eyeState', 'getEyeState', 'Right', 'Open']
+            ['r', '%m.side eye is %m.eyeState', 'getEyeState', 'Right', 'Open'],
             ['r', '%m.faceCoordinate of nose', 'getNoseValue', 'X'],
             ['b', 'wearing glasses', 'getGlassesBoolean'],
             ['b', 'is smiling', 'getHappyBoolean'],
