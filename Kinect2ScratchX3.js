@@ -248,7 +248,7 @@
             coordinate: ["X", "Y", "Z"],
             faceCoordinate: ["X", "Y"],
             side: ["Right", "Left"],
-            face: ["Eye", "Mouth"],
+            face: ["eye", "mouth"],
             eyeState: ["Unknown", "No", "Maybe", "Yes"],
             swipeDirections: ["Right", "Left", "Up", "Down"],
             state: ["Open", "Closed", "Lasso", "Unknown"],
