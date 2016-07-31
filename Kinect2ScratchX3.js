@@ -232,16 +232,15 @@
 			['r', '%m.coordinate of %m.torso of %m.index', 'getTorsoValue', 'X', 'Head', 'Closest Person'],
 			['b', '%m.side Hand is %m.state of %m.index', 'getHandState', 'Right', 'Closed', 'Closest Person'],
             ['b', '%m.side Hand is %m.state of %m.index', 'getHandState', 'Left', 'Lasso', 'Closest Person'],
-            ['h', 'When a person exits view', 'userLost'],
-            // Adding face blocks
+            ['h', 'When a person exits view', 'userLost'],           
             ['r', '%m.faceCoordinate of %m.side %m.face', 'getFaceValue', 'X', 'Right', 'eye'],
+            ['r', '%m.side eye is %m.eyeState', 'getEyeState', 'Right', 'Open']
             ['r', '%m.faceCoordinate of nose', 'getNoseValue', 'X'],
             ['b', 'wearing glasses', 'getGlassesBoolean'],
             ['b', 'is smiling', 'getHappyBoolean'],
             ['b', 'is engaged', 'getEngagedBoolean'],
             ['b', 'is looking away', 'getLookingAwayBoolean'],            
-            ['b', 'mouth is open', 'getMouthOpenBoolean'],
-            ['r', '%m.side eye is %m.eyeState', 'getEyeState', 'Right', 'Open']            
+            ['b', 'mouth is open', 'getMouthOpenBoolean']            
         ],
         menus: {
             index: ["Closest Person", "Person 1", "Person 2", "Person 3", "Person 4", "Person 5", "Person 6"],
