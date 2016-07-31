@@ -216,8 +216,10 @@
     };
 
     // "eyeLeftClosed":"Yes","eyeRightClosed":"Yes"    
+    // States: "Unknown", "No", "Maybe", "Yes"
+    // Only No returns true for open...
     ext.getEyeState = function (side, eyeState) {
-        if (face["eye" + side + "Closed"] == eyeState)
+        if (face["eye" + side + "Closed"] == "No" && eyeState == "Open")
             return true;
         return false;
     };
@@ -250,7 +252,7 @@
             faceCoordinate: ["X", "Y"],
             side: ["Right", "Left"],
             face: ["eye", "mouth"],
-            eyeState: ["Unknown", "No", "Maybe", "Yes"],
+            eyeState: ["Open", "Closed"],
             swipeDirections: ["Right", "Left", "Up", "Down"],
             state: ["Open", "Closed", "Lasso", "Unknown"],
             torso: ["Head", "Neck", "SpineShoulder", "SpineMid", "SpineBase"],
