@@ -234,7 +234,7 @@
             ['b', '%m.side Hand is %m.state of %m.index', 'getHandState', 'Left', 'Lasso', 'Closest Person'],
             ['h', 'When a person exits view', 'userLost'],
             // Adding face blocks
-            ['r', '%m.faceCoordinate of %m.side %m.face', 'getFaceValue', 'X', 'Right', 'Eye'],
+            ['r', '%m.faceCoordinate of %m.side %m.face', 'getFaceValue', 'X', 'Right', 'eye'],
             ['r', '%m.faceCoordinate of nose', 'getNoseValue', 'X'],
             ['b', 'wearing glasses', 'getGlassesBoolean'],
             ['b', 'is smiling', 'getHappyBoolean'],
