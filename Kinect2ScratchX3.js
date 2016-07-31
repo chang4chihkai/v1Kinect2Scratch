@@ -26,6 +26,8 @@
 
     var bodies = [jointData, jointData, jointData, jointData, jointData, jointData, jointData]; // Closest and 6 maximum bodies
 
+    var face = null;
+
     var indexDesc = { "Closest Person": 0, "Person 1" : 1, "Person 2" : 2, "Person 3": 3, "Person 4": 4, "Person 5": 5, "Person 6": 6 };
 
     var numTracked = 0;
@@ -78,6 +80,10 @@
         else if (kdata.type == "scene")
         {
             numTracked = kdata.numTracked;
+        }
+        else if(kdata.type == "face")
+        {
+            face = kdata;
         }
     }
 
@@ -162,24 +168,88 @@
     ext.getTrackedUsers = function () {        
         return numTracked;
     };
+	// {"type":"face", "eyeLeft":{"X":49.5357666,"Y":63.5501938},"eyeRight":{"X":70.30209,"Y":57.7280579},"nose":{"X":55.7178345,"Y":43.30278},"mouthLeft":{"X":44.4448547,"Y":33.911972},"mouthRight":{"X":64.18884,"Y":29.565033},"glasses":"Yes","happy":"Maybe","engaged":"No","lookingAway":"Maybe","eyeLeftClosed":"Yes","eyeRightClosed":"Yes","mouthOpen":"Maybe"}
+    // "eyeLeft":{"X":49.5357666,"Y":63.5501938},"eyeRight":{"X":70.30209,"Y":57.7280579},"mouthLeft":{"X":44.4448547,"Y":33.911972},"mouthRight":{"X":64.18884,"Y":29.565033},
+    ext.getFaceValue = function (faceCoordinate, side, facePart) {        
+        return face[facePart + side][faceCoordinate];
+    };
+    // "nose":{"X":55.7178345,"Y":43.30278},
+    ext.getNoseValue = function (coordinate) {
+        return face["nose"][coordinate];
+    };
+
+    // "glasses":"Yes",
+    ext.getGlassesBoolean = function () {
+        if (face["glasses"] == "Yes")
+            return true;
+        return false;
+    };
+
+    //"happy":"Maybe",
+    ext.getHappyBoolean = function () {
+        if (face["happy"] == "Yes")
+            return true;
+        return false;
+    };
+
+    // "engaged":"No",
+    ext.getEngagedBoolean = function () {
+        if (face["engaged"] == "Yes")
+            return true;
+        return false;
+    };
+
+    // "lookingAway":"Maybe",
+    ext.getLookingAwayBoolean = function () {
+        if (face["lookingAway"] == "Yes")
+            return true;
+        return false;
+    };
+
+    // "mouthOpen":"Maybe"
+    ext.getMouthOpenBoolean = function () {
+        if (face["mouthOpen"] == "Yes")
+            return true;
+        return false;
+    };
+
+    // "eyeLeftClosed":"Yes","eyeRightClosed":"Yes"    
+    ext.getEyeState = function (side, eyeState) {
+        if (face["eye" + side + "Closed"] == eyeState)
+            return true;
+        return false;
+    };
+
 
     // Block and block menu descriptions
     var descriptor = {
         blocks: [            
             ['h', 'When a person enters view', 'userEntered'],
             ['r', 'number of tracked people', 'getTrackedUsers'],
-            ['r', '%m.coordinate of %m.side %m.limbs of %m.index', 'getLimbValue', 'x', 'Right', 'Hand', 'Closest Person'],
-            ['r', '%m.coordinate of %m.side %m.limbs of %m.index', 'getLimbValue', 'y', 'Right', 'Hand', 'Closest Person'],
-            ['r', '%m.coordinate of %m.side %m.limbs of %m.index', 'getLimbValue', 'z', 'Right', 'Hand', 'Closest Person'],			
-			['r', '%m.coordinate of %m.torso of %m.index', 'getTorsoValue', 'x', 'Head', 'Closest Person'],
+            ['r', '%m.coordinate of %m.side %m.limbs of %m.index', 'getLimbValue', 'X', 'Right', 'Hand', 'Closest Person'],
+            ['r', '%m.coordinate of %m.side %m.limbs of %m.index', 'getLimbValue', 'Y', 'Right', 'Hand', 'Closest Person'],
+            ['r', '%m.coordinate of %m.side %m.limbs of %m.index', 'getLimbValue', 'Z', 'Right', 'Hand', 'Closest Person'],			
+			['r', '%m.coordinate of %m.torso of %m.index', 'getTorsoValue', 'X', 'Head', 'Closest Person'],
 			['b', '%m.side Hand is %m.state of %m.index', 'getHandState', 'Right', 'Closed', 'Closest Person'],
             ['b', '%m.side Hand is %m.state of %m.index', 'getHandState', 'Left', 'Lasso', 'Closest Person'],
-            ['h', 'When a person exits view', 'userLost']
+            ['h', 'When a person exits view', 'userLost'],
+            // Adding face blocks
+            ['r', '%.faceCoordinate of %m.side %m.face', 'getFaceValue', 'X', 'Right', 'Eye'],
+            ['r', '%.faceCoordinate of nose', 'getNoseValue', 'X'],
+            ['b', 'wearing glasses', 'getGlassesBoolean'],
+            ['b', 'is smiling', 'getHappyBoolean'],
+            ['b', 'is engaged', 'getEngagedBoolean'],
+            ['b', 'is looking away', 'getLookingAwayBoolean'],            
+            ['b', 'mouth is open', 'getMouthOpenBoolean'],
+            ['r', '%m.side eye is %m.eyeState', 'getEyeState', 'Right', 'Open']            
         ],
         menus: {
             index: ["Closest Person", "Person 1", "Person 2", "Person 3", "Person 4", "Person 5", "Person 6"],
-            coordinate: ["x", "y", "z"],
+            coordinate: ["X", "Y", "Z"],
+            faceCoordinate: ["X", "Y"],
             side: ["Right", "Left"],
+            face: ["Eye", "Mouth"],
+            eyeState: ["Unknown", "No", "Maybe", "Yes"],
             swipeDirections: ["Right", "Left", "Up", "Down"],
             state: ["Open", "Closed", "Lasso", "Unknown"],
             torso: ["Head", "Neck", "SpineShoulder", "SpineMid", "SpineBase"],
