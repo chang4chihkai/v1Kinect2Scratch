@@ -181,39 +181,19 @@
     };
 
     // "glasses":"Yes",
-    ext.getGlassesBoolean = function () {
-        if (face["glasses"] == "Yes")
+    ext.getFaceFeatureBoolean = function (feature) {
+        var featureKey;
+        switch (feature) {
+            case "wearing glasses": featureKey = "glasses"; break;
+            case "happy": featureKey = "happy"; break;
+            case "engaged": featureKey = "engaged"; break;
+            case "looking away": featureKey = "lookingAway"; break;
+            case "open-mouthed": featureKey = "mouthOpen"; break;
+        }
+        if (face[featureKey] == "Yes" || face[featureKey] == "Maybe")
             return true;
         return false;
-    };
-
-    //"happy":"Maybe",
-    ext.getHappyBoolean = function () {
-        if (face["happy"] == "Yes")
-            return true;
-        return false;
-    };
-
-    // "engaged":"No",
-    ext.getEngagedBoolean = function () {
-        if (face["engaged"] == "Yes")
-            return true;
-        return false;
-    };
-
-    // "lookingAway":"Maybe",
-    ext.getLookingAwayBoolean = function () {
-        if (face["lookingAway"] == "Yes")
-            return true;
-        return false;
-    };
-
-    // "mouthOpen":"Maybe"
-    ext.getMouthOpenBoolean = function () {
-        if (face["mouthOpen"] == "Yes")
-            return true;
-        return false;
-    };
+    }
 
     // "eyeLeftClosed":"Yes","eyeRightClosed":"Yes"    
     // States: "Unknown", "No", "Maybe", "Yes"
@@ -240,16 +220,13 @@
             ['r', '%m.faceCoordinate of %m.side %m.face', 'getFaceValue', 'X', 'Right', 'eye'],
             ['r', '%m.side eye is %m.eyeState', 'getEyeState', 'Right', 'Open'],
             ['r', '%m.faceCoordinate of nose', 'getNoseValue', 'X'],
-            ['b', 'wearing glasses', 'getGlassesBoolean'],
-            ['b', 'is smiling', 'getHappyBoolean'],
-            ['b', 'is engaged', 'getEngagedBoolean'],
-            ['b', 'is looking away', 'getLookingAwayBoolean'],            
-            ['b', 'mouth is open', 'getMouthOpenBoolean']            
+            ['b', 'Closest face is %m.faceFeature', 'getFaceFeatureBoolean', 'wearing glasses']            
         ],
         menus: {
             index: ["Closest Person", "Person 1", "Person 2", "Person 3", "Person 4", "Person 5", "Person 6"],
             coordinate: ["X", "Y", "Z"],
             faceCoordinate: ["X", "Y"],
+            faceFeature: ["wearing glasses", "happy", "engaged", "looking away", "open-mouthed"],
             side: ["Right", "Left"],
             face: ["eye", "mouth"],
             eyeState: ["Open", "Closed"],
