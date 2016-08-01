@@ -218,7 +218,7 @@
             ['b', '%m.side Hand is %m.state of %m.index', 'getHandState', 'Left', 'Lasso', 'Closest Person'],
             ['h', 'When a person exits view', 'userLost'],           
             ['r', '%m.faceCoordinate of %m.side %m.face', 'getFaceValue', 'X', 'Right', 'eye'],
-            ['r', '%m.side Eye is %m.eyeState', 'getEyeState', 'Right', 'Open'],
+            ['b', '%m.side Eye is %m.eyeState', 'getEyeState', 'Right', 'Open'],
             ['r', '%m.faceCoordinate of Nose', 'getNoseValue', 'X'],
             ['b', 'Closest face is %m.faceFeature', 'getFaceFeatureBoolean', 'wearing glasses']            
         ],
