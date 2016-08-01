@@ -199,8 +199,17 @@
     // States: "Unknown", "No", "Maybe", "Yes"
     // Only No returns true for open...
     ext.getEyeState = function (side, eyeState) {
-        if (face["eye" + side + "Closed"] == "No" && eyeState == "Open")
-            return true;
+        switch(eyeState)
+        {
+            case "Open":
+                if (face["eye" + side + "Closed"] == "No" || face["eye" + side + "Closed"] == "Unknown")
+                    return true;
+                break;
+            case "Closed":
+                if (face["eye" + side + "Closed"] == "Yes" || face["eye" + side + "Closed"] == "Maybe")
+                    return true;
+                break;            
+        }
         return false;
     };
 
